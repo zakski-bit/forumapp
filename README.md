@@ -5,8 +5,8 @@ Proyek ini dibangun untuk memenuhi kriteria submission akhir **"Menerapkan Autom
 ---
 
 ## 🔗 Deployment & Live Demo
-- **URL Aplikasi Vercel:** [https://forum-app-zabss.vercel.app](https://forum-app-zabss.vercel.app)
-- **Repository GitHub:** [https://github.com/zabss/forum-app](https://github.com/zabss/forum-app)
+- **URL Aplikasi Vercel:** [https://forum-app-zaks4.vercel.app](https://forum-app-zaks4.vercel.app)
+- **Repository GitHub:** [https://github.com/zakski-bit/forumapp](https://github.com/zakski-bit/forumapp)
 
 ---
 
