@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -11,10 +12,11 @@ import {
   FaSignInAlt,
   FaUserPlus,
   FaComments,
+  FaFlask,
 } from 'react-icons/fa';
 import { asyncUnsetAuthUser } from '../states/authUser/action';
 
-function SidebarNav() {
+function SidebarNav({ onOpenTestHub = () => {} }) {
   const authUser = useSelector((state) => state.authUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -79,6 +81,17 @@ function SidebarNav() {
             <FaBookmark className="menu-icon" />
             <span className="menu-label">Tersimpan</span>
           </Link>
+
+          <button
+            type="button"
+            onClick={onOpenTestHub}
+            className="sidebar-menu-item btn-test-menu"
+            title="Buka Konsol Diagnostik & Pengujian API"
+          >
+            <FaFlask className="menu-icon text-cyan" />
+            <span className="menu-label">Tes API</span>
+            <span className="sidebar-test-badge">Live</span>
+          </button>
         </nav>
 
         <button
@@ -100,7 +113,7 @@ function SidebarNav() {
                 className="profile-pill-avatar"
               />
               <div className="profile-pill-meta">
-                <span className="profile-pill-name">{authUser.name}</span>
+                <span className="profile-pill-name user-name">{authUser.name}</span>
                 <span className="profile-pill-handle">@{username}</span>
               </div>
               <button
@@ -128,5 +141,13 @@ function SidebarNav() {
     </aside>
   );
 }
+
+SidebarNav.propTypes = {
+  onOpenTestHub: PropTypes.func,
+};
+
+SidebarNav.defaultProps = {
+  onOpenTestHub: () => {},
+};
 
 export default SidebarNav;

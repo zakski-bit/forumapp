@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { asyncPreloadProcess } from './states/isPreload/action';
 import LoadingIndicator from './components/LoadingIndicator';
 import SidebarNav from './components/SidebarNav';
+import ApiTestModal from './components/ApiTestModal';
 import HomePage from './pages/HomePage';
 import DetailPage from './pages/DetailPage';
 import LoginPage from './pages/LoginPage';
@@ -12,6 +13,7 @@ import CreateThreadPage from './pages/CreateThreadPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 
 function App() {
+  const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const isPreload = useSelector((state) => state.isPreload);
   const dispatch = useDispatch();
 
@@ -35,7 +37,7 @@ function App() {
     <div className="app-shell">
       <LoadingIndicator />
       <div className="app-layout-wrapper">
-        <SidebarNav />
+        <SidebarNav onOpenTestHub={() => setIsTestModalOpen(true)} />
         <main className="app-main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -47,6 +49,11 @@ function App() {
           </Routes>
         </main>
       </div>
+
+      <ApiTestModal
+        isOpen={isTestModalOpen}
+        onClose={() => setIsTestModalOpen(false)}
+      />
     </div>
   );
 }

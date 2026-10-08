@@ -23,8 +23,7 @@ function WidgetsSidebar({
   const topLeaderboards = leaderboards.slice(0, 3);
 
   const getRankBadge = (index) => {
-    const badges = ['🥇', '🥈', '🥉'];
-    return badges[index] || `#${index + 1}`;
+    return `#${index + 1}`;
   };
 
   return (
