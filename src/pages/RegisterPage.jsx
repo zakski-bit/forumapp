@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { FaUserPlus } from 'react-icons/fa';
+import { FaComments, FaArrowLeft } from 'react-icons/fa';
 import { asyncRegisterUser } from '../states/users/action';
 
 function RegisterPage() {
@@ -28,10 +28,18 @@ function RegisterPage() {
   return (
     <section className="auth-page-container">
       <div className="auth-card">
+        <div className="auth-top-nav">
+          <Link to="/" className="auth-back-link">
+            <FaArrowLeft /> Kembali ke Beranda
+          </Link>
+        </div>
+
         <div className="auth-header">
-          <FaUserPlus className="auth-icon" />
-          <h1 className="auth-title">Daftar Akun Baru</h1>
-          <p className="auth-subtitle">Bergabung bersama komunitas diskusi sekarang</p>
+          <div className="auth-logo-icon">
+            <FaComments />
+          </div>
+          <h1 className="auth-title">Gabung ke Dicoding Forum</h1>
+          <p className="auth-subtitle">Buat akun untuk mulai berdiskusi dan berbagi pengalaman</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -79,12 +87,14 @@ function RegisterPage() {
           </button>
         </form>
 
-        <p className="auth-footer-text">
-          Sudah punya akun?{' '}
-          <Link to="/login" className="text-link">
-            Masuk di sini
-          </Link>
-        </p>
+        <div className="auth-footer">
+          <p>
+            Sudah punya akun?{' '}
+            <Link to="/login" className="text-link">
+              Masuk di sini
+            </Link>
+          </p>
+        </div>
       </div>
     </section>
   );

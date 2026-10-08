@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { asyncPreloadProcess } from './states/isPreload/action';
 import LoadingIndicator from './components/LoadingIndicator';
-import Navbar from './components/Navbar';
+import SidebarNav from './components/SidebarNav';
 import HomePage from './pages/HomePage';
 import DetailPage from './pages/DetailPage';
 import LoginPage from './pages/LoginPage';
@@ -21,9 +21,12 @@ function App() {
 
   if (isPreload) {
     return (
-      <div className="loading-state">
+      <div className="loading-state-screen">
         <LoadingIndicator />
-        <p>Menyiapkan aplikasi...</p>
+        <div className="preload-spinner-wrap">
+          <div className="preload-spinner" />
+          <p>Menyiapkan Dicoding Forum...</p>
+        </div>
       </div>
     );
   }
@@ -31,17 +34,19 @@ function App() {
   return (
     <div className="app-shell">
       <LoadingIndicator />
-      <Navbar />
-      <main className="app-main-content">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/threads/:id" element={<DetailPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/new" element={<CreateThreadPage />} />
-          <Route path="/leaderboards" element={<LeaderboardPage />} />
-        </Routes>
-      </main>
+      <div className="app-layout-wrapper">
+        <SidebarNav />
+        <main className="app-main-content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/threads/:id" element={<DetailPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/new" element={<CreateThreadPage />} />
+            <Route path="/leaderboards" element={<LeaderboardPage />} />
+          </Routes>
+        </main>
+      </div>
     </div>
   );
 }

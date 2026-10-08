@@ -13,31 +13,42 @@ function CommentItem({
   onUpVote,
   onDownVote,
 }) {
+  const username = owner?.name ? owner.name.toLowerCase().replace(/\s+/g, '') : 'anonim';
+
   return (
     <div className="comment-item-card">
-      <div className="comment-header">
-        <div className="comment-author-info">
-          {owner?.avatar && (
-            <img src={owner.avatar} alt={owner.name} className="comment-avatar" />
-          )}
-          <span className="comment-author-name">{owner?.name || 'Anonim'}</span>
-        </div>
-        <span className="comment-posted-at">{postedAt(createdAt)}</span>
+      <div className="comment-avatar-col">
+        {owner?.avatar ? (
+          <img src={owner.avatar} alt={owner.name} className="comment-avatar" />
+        ) : (
+          <div className="comment-avatar-fallback">
+            {(owner?.name || 'A')[0].toUpperCase()}
+          </div>
+        )}
       </div>
 
-      <div
-        className="comment-content"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+      <div className="comment-content-col">
+        <header className="comment-header-meta">
+          <span className="comment-author-name">{owner?.name || 'Anonim'}</span>
+          <span className="comment-author-handle">@{username}</span>
+          <span className="meta-separator">·</span>
+          <span className="comment-posted-at">{postedAt(createdAt)}</span>
+        </header>
 
-      <div className="comment-footer">
-        <VoteButtons
-          upVotesBy={upVotesBy}
-          downVotesBy={downVotesBy}
-          authUserId={authUserId}
-          onUpVote={() => onUpVote(id)}
-          onDownVote={() => onDownVote(id)}
+        <div
+          className="comment-text-body"
+          dangerouslySetInnerHTML={{ __html: content }}
         />
+
+        <footer className="comment-footer-actions">
+          <VoteButtons
+            upVotesBy={upVotesBy}
+            downVotesBy={downVotesBy}
+            authUserId={authUserId}
+            onUpVote={() => onUpVote(id)}
+            onDownVote={() => onDownVote(id)}
+          />
+        </footer>
       </div>
     </div>
   );

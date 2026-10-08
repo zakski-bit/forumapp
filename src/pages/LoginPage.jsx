@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { FaSignInAlt } from 'react-icons/fa';
+import { FaComments, FaArrowLeft } from 'react-icons/fa';
 import { asyncSetAuthUser } from '../states/authUser/action';
 
 function LoginPage() {
@@ -21,10 +21,18 @@ function LoginPage() {
   return (
     <section className="auth-page-container">
       <div className="auth-card">
+        <div className="auth-top-nav">
+          <Link to="/" className="auth-back-link">
+            <FaArrowLeft /> Kembali ke Beranda
+          </Link>
+        </div>
+
         <div className="auth-header">
-          <FaSignInAlt className="auth-icon" />
-          <h1 className="auth-title">Masuk ke Akun</h1>
-          <p className="auth-subtitle">Masuk untuk mulai berdiskusi dan berbagi ide</p>
+          <div className="auth-logo-icon">
+            <FaComments />
+          </div>
+          <h1 className="auth-title">Masuk ke Dicoding Forum</h1>
+          <p className="auth-subtitle">Bergabung kembali ke percakapan komunitas pengembang</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -59,12 +67,14 @@ function LoginPage() {
           </button>
         </form>
 
-        <p className="auth-footer-text">
-          Belum punya akun?{' '}
-          <Link to="/register" className="text-link">
-            Daftar di sini
-          </Link>
-        </p>
+        <div className="auth-footer">
+          <p>
+            Belum punya akun?{' '}
+            <Link to="/register" className="text-link">
+              Daftar akun baru di sini
+            </Link>
+          </p>
+        </div>
       </div>
     </section>
   );
