@@ -1,88 +1,101 @@
-# Aplikasi Forum Diskusi (React + Redux)
+# Dicoding Forum App — React, Redux Toolkit & Automated Testing
 
-Proyek ini dibangun untuk memenuhi kriteria submission akhir **"Menerapkan Automation Testing dan CI/CD pada Aplikasi Forum Diskusi"** pada kelas **Menjadi React Web Developer Expert** di Dicoding Academy.
+Modern discussion forum web application built with **React 18** and **Redux Toolkit**. Features centralized predictable state management, comprehensive multi-tier test automation (Jest & Cypress), component isolation via **Storybook**, and continuous integration via **GitHub Actions**.
 
----
+[![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat&logo=react)](https://react.dev/)
+[![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-RTK-764ABC?style=flat&logo=redux)](https://redux-toolkit.js.org/)
+[![Jest](https://img.shields.io/badge/Jest-Unit%20%26%20Integration-C21325?style=flat&logo=jest)](https://jestjs.io/)
+[![Cypress](https://img.shields.io/badge/Cypress-End--to--End-17202C?style=flat&logo=cypress)](https://www.cypress.io/)
+[![Storybook](https://img.shields.io/badge/Storybook-UI%20Catalog-FF4785?style=flat&logo=storybook)](https://storybook.js.org/)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live%20Demo-black?style=flat&logo=vercel)](https://forumapp-ofvr-seven.vercel.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## 🔗 Deployment & Live Demo
-- **URL Aplikasi Vercel:** [https://forumapp-ofvr-seven.vercel.app](https://forumapp-ofvr-seven.vercel.app)
-- **Repository GitHub:** [https://github.com/zakski-bit/forumapp](https://github.com/zakski-bit/forumapp)
+## Live Deployment
 
----
+- **Production URL**: [https://forumapp-ofvr-seven.vercel.app](https://forumapp-ofvr-seven.vercel.app)
 
-## 🌟 Fitur Utama & Kriteria Penilaian
+## State Management Architecture
 
-### Kriteria Utama 1: Automation Testing
-1. **Pengujian Reducer (> 3 pengujian - Bintang 5):**
-   - `src/states/authUser/reducer.test.js`: Pengujian `SET_AUTH_USER`, `UNSET_AUTH_USER`, dan unknown action.
-   - `src/states/threads/reducer.test.js`: Pengujian `RECEIVE_THREADS`, `ADD_THREAD`, `UP_VOTE_THREAD`, `DOWN_VOTE_THREAD`, `NEUTRAL_VOTE_THREAD`.
-   - `src/states/threadDetail/reducer.test.js`: Pengujian `RECEIVE_THREAD_DETAIL`, `CLEAR_THREAD_DETAIL`, `ADD_COMMENT`, `UP_VOTE_COMMENT`.
-   - `src/states/isPreload/reducer.test.js`: Pengujian `SET_IS_PRELOAD` dengan true/false value.
-2. **Pengujian Thunk Functions (> 3 pengujian - Bintang 5):**
-   - `src/states/shared/action.test.js`: Pengujian `asyncPopulateUsersAndThreads` untuk skenario berhasil & gagal.
-   - `src/states/authUser/action.test.js`: Pengujian `asyncSetAuthUser` untuk skenario login berhasil & gagal.
-   - `src/states/threads/action.test.js`: Pengujian `asyncAddThread` untuk skenario pembuatan thread berhasil & gagal.
-   - `src/states/threadDetail/action.test.js`: Pengujian `asyncReceiveThreadDetail` untuk skenario fetching detail thread berhasil & gagal.
-3. **Pengujian React Component (> 3 pengujian - Bintang 5):**
-   - `src/components/CategoryFilter.test.jsx`: Memverifikasi rendering chip kategori dan aksi klik filter.
-   - `src/components/VoteButtons.test.jsx`: Memverifikasi tampilan jumlah vote, class status aktif, dan callback vote.
-   - `src/components/CommentInput.test.jsx`: Memverifikasi kondisi belum login dan form input submit komentar saat login.
-   - `src/components/LoadingIndicator.test.jsx`: Memverifikasi perilaku progress bar saat loading bernilai 0 vs bernilai positif.
-4. **Pengujian End-to-End (Cypress):**
-   - `cypress/e2e/login.cy.js`: Skenario lengkap alur login (menampilkan form login, menampilkan alert saat input salah, dan berhasil masuk ke homepage saat kredensial valid).
-5. **Format Skenario:** Setiap berkas pengujian wajib dan telah dilengkapi skenario pengujian di bagian awal berkas.
+State is managed through a centralized store powered by **Redux Toolkit**, enforcing immutable state mutations and clean separation of concerns:
 
-### Kriteria Utama 2: Deployment & CI/CD
-- **Continuous Integration (CI):** Diterapkan dengan **GitHub Actions** melalui berkas `.github/workflows/ci.yml`. Menjalankan audit linter, automation testing, dan build otomatis pada setiap commit / pull request ke branch `master`.
-- **Continuous Deployment (CD):** Diterapkan dengan **Vercel** (`vercel.json`).
-- **Branch Protection:** Dilampirkan bukti screenshot proteksi branch `master` dan checks CI/CD pada berkas:
-  - `1_ci_check_error.png`
-  - `2_ci_check_pass.png`
-  - `3_branch_protection.png`
+```
+src/
+├── states/
+│   ├── authUser/              # User session & authentication state
+│   ├── isPreload/             # Initial application hydration status
+│   ├── leaderboards/          # User leaderboard score rankings
+│   ├── shared/                # Cross-cutting async orchestrators (initial data population)
+│   ├── threadDetail/          # Focused thread inspection & nested comments
+│   ├── threads/               # Thread catalog & category filtering
+│   └── users/                 # Registered user profiles
+├── components/                # Reusable presentation components
+├── pages/                     # Routed page views
+└── stories/                   # Storybook visual component documentation
+```
 
-### Kriteria Utama 3: React Ecosystem (Storybook - Bintang 5)
-- Memanfaatkan **Storybook** dari daftar resmi [awesome-react-ecosystem#react-tools](https://github.com/dicodingacademy/awesome-react-ecosystem#react-tools).
-- Memiliki 3 stories komponen (melebihi batas minimal 2 stories):
-  - `src/stories/CategoryFilter.stories.jsx`
-  - `src/stories/VoteButtons.stories.jsx`
-  - `src/stories/CommentInput.stories.jsx`
+### Optimistic UI & Async Thunks
+- All network interactions are isolated within Redux Thunk action creators.
+- Upvote/Downvote actions leverage optimistic updates for immediate user feedback with automated rollback on network failure.
 
-### Kriteria Utama 4: Mempertahankan Kriteria Sebelumnya
-- **Fungsionalitas:** Autentikasi lengkap, thread list, thread detail, komentar, dan indikator loading.
-- **Bugs Highlighting:** Menerapkan **Dicoding Academy JavaScript Style Guide** (`eslint-config-dicodingacademy`) dengan **0 error dan 0 warning** pada `npm run lint`.
-- **Arsitektur Redux:** Seluruh REST API ditangani via **Redux Thunk** (tanpa pemanggilan API di dalam `useEffect`/komponen).
-- **Fitur Bonus Sebelumnya:** Upvote/Downvote dengan *Optimistic Updates*, Leaderboard (`/leaderboards`), dan Filter Kategori client-side.
+## Comprehensive Test Automation
 
----
+### 1. Unit & Integration Testing (Jest)
+- **Reducer Suites**: Validates pure state transitions across all actions (`SET_AUTH_USER`, `RECEIVE_THREADS`, `ADD_THREAD`, `UP_VOTE_THREAD`, `RECEIVE_THREAD_DETAIL`).
+- **Thunk Middleware Suites**: Mocked HTTP assertions validating dispatch sequences and error handlers under successful and failed API scenarios.
+- **Component Tests (React Testing Library)**: Verifies user event handling, conditional rendering, category filtering, and accessibility attributes.
 
-## 🛠️ Perintah Menjalankan Proyek
+### 2. End-to-End (E2E) Automation (Cypress)
+- Complete browser automation test suites simulating realistic end-user flows:
+  - Form validation on empty or malformed inputs.
+  - Server alert messaging on invalid credentials.
+  - Successful token generation and protected route navigation upon authentication.
 
-1. **Menjalankan Development Server:**
+### 3. Component Isolation (Storybook)
+- Isolated component catalog validating states, themes, and interactive props independently of the core application runtime:
+  - `CategoryFilter.stories.jsx`
+  - `VoteButtons.stories.jsx`
+  - `CommentInput.stories.jsx`
+
+## CI/CD Pipeline
+
+- **Continuous Integration (GitHub Actions)**: Automated workflow on every push and pull request executing code style audits (ESLint with zero errors), unit test suites, integration tests, and production build checks.
+- **Continuous Deployment (Vercel)**: Automatic edge deployment of verified builds.
+
+## Quickstart
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation & Run
+
+1. Clone the repository:
    ```bash
-   npm run dev
+   git clone https://github.com/zakski-bit/forumapp.git
+   cd forumapp
+   npm install
    ```
 
-2. **Menjalankan Seluruh Automation Test (Unit & Component):**
+2. Start the development server:
    ```bash
-   npm test
+   npm run start
    ```
 
-3. **Menjalankan Pengujian End-to-End (Cypress):**
+3. Execute automated test suites:
    ```bash
+   # Run Jest unit & integration tests
+   npm run test
+
+   # Run Cypress End-to-End test suite
    npm run e2e
    ```
 
-4. **Menjalankan Linter (ESLint):**
-   ```bash
-   npm run lint
-   ```
-
-5. **Menjalankan Storybook:**
+4. Launch Storybook catalog:
    ```bash
    npm run storybook
    ```
 
-6. **Build untuk Production:**
-   ```bash
-   npm run build
-   ```
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.
